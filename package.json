@@ -1,0 +1,24 @@
+{
+  "name": "proyecto-bdd-login",
+  "version": "1.0.0",
+  "description": "Prueba de trazabilidad",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jlrodriguez0906/proyecto-bdd-login.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/jlrodriguez0906/proyecto-bdd-login/issues"
+  },
+  "homepage": "https://github.com/jlrodriguez0906/proyecto-bdd-login#readme",
+  "devDependencies": {
+    "@cucumber/cucumber": "^13.3.0"
+  }
+}
