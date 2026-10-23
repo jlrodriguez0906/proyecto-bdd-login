@@ -1,0 +1,98 @@
+openapi: 3.0.3
+info:
+  title: API de Autenticación de Usuarios
+  description: Contrato API-First para la HU-101 (Inicio de Sesión)
+  version: 1.0.0
+  # Solución: Agregar el objeto contact dentro de info
+  contact:
+    name: Equipo de Desarrollo
+    email: dev@ejemplo.com
+
+servers:
+  - url: http://localhost:3000/api/v1
+    description: Servidor de desarrollo local
+
+tags:
+  - name: Autenticación
+    description: Operaciones de acceso y gestión de sesiones
+
+paths:
+  /auth/login:
+    post:
+      summary: Autenticar usuario registrado
+      description: Valida el correo y la contraseña del usuario registrado para conceder acceso a la plataforma.
+      operationId: autenticarUsuario
+      tags:
+        - Autenticación
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SolicitudLogin'
+      responses:
+        '200':
+          description: Autenticación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespuestaLoginExitoso'
+        '401':
+          description: Credenciales inválidas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespuestaLoginFallido'
+
+components:
+  schemas:
+    SolicitudLogin:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          example: "usuario@ejemplo.com"
+        password:
+          type: string
+          example: "ClaveSegura123"
+
+    RespuestaLoginExitoso:
+      type: object
+      required:
+        - success
+        - message
+        - token
+        - url
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Bienvenido a tu panel"
+        token:
+          type: string
+          example: "token-demo-12345"
+        url:
+          type: string
+          example: "/dashboard"
+
+    RespuestaLoginFallido:
+      type: object
+      required:
+        - success
+        - message
+        - url
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: "Credenciales no válidas"
+        url:
+          type: string
+          example: "/login"

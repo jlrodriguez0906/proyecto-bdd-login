@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/jlrodriguez0906/proyecto-bdd-login#readme",
   "devDependencies": {
-    "@cucumber/cucumber": "^13.3.0"
+    "@cucumber/cucumber": "^13.3.0",
+    "@stoplight/spectral-cli": "^6.17.0"
   }
 }

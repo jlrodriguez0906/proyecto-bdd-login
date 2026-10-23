@@ -1,42 +1,40 @@
 const { Given, When, Then } = require('@cucumber/cucumber');
 const assert = require('assert');
-const { login } = require('../../src/login');
+const { autenticarUsuario } = require('../../src/authService');
 
 let correoInput = '';
-let passInput = '';
-let resultado = null;
+let passwordInput = '';
+let respuestaApi = null;
 
-Given('que el usuario está en la página de inicio de sesión', function () {
+Given('que la API de autenticación está disponible', function () {
     correoInput = '';
-    passInput = '';
-    resultado = null;
+    passwordInput = '';
+    respuestaApi = null;
 });
 
-When('ingresa el correo {string} y la contraseña {string}', function (email, password) {
+When('se envía una petición de login con correo {string} y contraseña {string}', function (email, password) {
     correoInput = email;
-    passInput = password;
+    passwordInput = password;
+    respuestaApi = autenticarUsuario(correoInput, passwordInput);
 });
 
-When('hace clic en el botón {string}', function (boton) {
-    if (boton === 'Ingresar') {
-        resultado = login(correoInput, passInput);
-    }
+Then('el servicio responde con un código de estado {int}', function (statusEsperado) {
+    assert.strictEqual(respuestaApi.status, statusEsperado);
 });
 
-Then('debería ver el mensaje de bienvenida {string}', function (mensajeEsperado) {
-    assert.strictEqual(resultado.success, true);
-    assert.strictEqual(resultado.message, mensajeEsperado);
+Then('la respuesta contiene success igual a {string}', function (valorSuccess) {
+    const esperado = valorSuccess === 'true';
+    assert.strictEqual(respuestaApi.data.success, esperado);
 });
 
-Then('la URL actual debería ser {string}', function (urlEsperada) {
-    assert.strictEqual(resultado.url, urlEsperada);
+Then('la respuesta incluye el token {string}', function (tokenEsperado) {
+    assert.strictEqual(respuestaApi.data.token, tokenEsperado);
 });
 
-Then('debería ver un mensaje de error {string}', function (errorEsperado) {
-    assert.strictEqual(resultado.success, false);
-    assert.strictEqual(resultado.message, errorEsperado);
+Then('la URL de redirección es {string}', function (urlEsperada) {
+    assert.strictEqual(respuestaApi.data.url, urlEsperada);
 });
 
-Then('el usuario permanece en la página de inicio de sesión', function () {
-    assert.strictEqual(resultado.url, '/login');
+Then('el mensaje de respuesta es {string}', function (mensajeEsperado) {
+    assert.strictEqual(respuestaApi.data.message, mensajeEsperado);
 });
